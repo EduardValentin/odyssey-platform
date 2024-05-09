@@ -1,0 +1,69 @@
+---
+import Cloud from "../components/Cloud.astro";
+import { ViewTransitions } from "astro:transitions";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Jura:wght@300..700&display=swap"
+			rel="stylesheet"
+		/>
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body>
+		<Cloud class="-left-[1090px] animate-float" />
+		<Cloud
+			class="translate-y-full -right-[1090px] animate-float-reversed"
+		/>
+		<slot />
+	</body><style is:global>
+		@tailwind base; /* Preflight will be injected here */
+
+		@tailwind components;
+
+		@tailwind utilities;
+		:root {
+			--base-main: #232136;
+			--rose-main: #ebbcba;
+			--rose-moon: #ea9a97;
+			--foam-main: #9ccfd8;
+		}
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-family: "Jura", "Times New Roman", Times, serif;
+		}
+		html {
+			height: 100%;
+			font-family: "Inter", system-ui, sans-serif;
+			color: white;
+			background: var(--base-main);
+		}
+		body {
+			height: 100%;
+		}
+	</style>
+</html>

@@ -1,0 +1,68 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Mail from "../components/icons/Mail.astro";
+import BouncingLink from "../components/BouncingLink.astro";
+---
+
+<Layout title="Welcome to the Odyssey Programming Course">
+	<div class="pt-[220px] flex justify-between flex-col h-full">
+		<div>
+			<h1
+				class="text-foam text-[3rem]/[1.25rem] font-bold text-center"
+			>
+				Jumpstart your career in software development
+			</h1>
+			<p
+				class="mt-[4.25rem] max-w-[1012px] mx-auto text-[1rem]/[2.125rem] text-center"
+			>
+				Are you ready to embark on an exhilarating
+				journey into the world of programming, starting
+				from scratch? Dive into our upcoming course and
+				unlock the secrets to becoming a proficient
+				programmer, equipped with the skills to tackle
+				any challenge that comes your way.
+			</p>
+
+			<div class="mx-auto flex justify-center mt-[5.125rem]">
+				<form
+					id="waitlist-signup"
+					class="flex relative"
+					method="POST"
+					action="/join-waitlist"
+				>
+					<Mail
+						class="fill-base absolute top-1/2 left-5 -translate-y-1/2"
+					/>
+					<input
+						class="bg-rose border-none w-[415px] placeholder-gray-500 pl-20 text-black outline-none focus:bg-rose-moon"
+						name="email"
+						type="email"
+						placeholder="example@mail.com"
+					/>
+					<button
+						data-sitekey="reCAPTCHA_site_key"
+						data-callback="onSubmit"
+						data-action="submit"
+						class="g-recaptcha bg-rose font-semibold text-base border-l-base border-l py-5 px-4 text-[1rem]/[1.25rem] hover:bg-rose-moon"
+						type="submit"
+						>Join the waiting list</button
+					>
+				</form>
+			</div>
+		</div>
+		<BouncingLink
+			href="/previews/what-will-you-learn"
+			class="mb-28"
+		>
+			See course preview
+		</BouncingLink>
+	</div>
+
+	<script is:inline src="https://www.google.com/recaptcha/api.js"
+	></script>
+</Layout>
+<script is:inline>
+	function onSubmit(token) {
+		document.getElementById("waitlist-signup").submit();
+	}
+</script>

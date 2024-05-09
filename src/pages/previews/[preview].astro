@@ -1,0 +1,99 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BouncingLink from "../../components/BouncingLink.astro";
+import PaginationLink from "../../components/PaginationLink.astro";
+
+export async function getStaticPaths() {
+	const previewsCol = await getCollection("previews");
+	return previewsCol.map((p) => ({
+		params: {
+			preview: p.slug,
+		},
+		props: {
+			preview: p,
+		},
+	}));
+}
+
+const { preview } = Astro.props;
+
+const { Content } = await preview.render();
+
+const allPreviews = (await getCollection("previews")).sort(
+	(p1, p2) => p1.data.index - p2.data.index,
+);
+
+const currentSlugIndex = allPreviews.findIndex((p) => p.slug === preview.slug);
+
+const nextPage = allPreviews[currentSlugIndex + 1];
+const prevPage = allPreviews[currentSlugIndex - 1];
+---
+
+<Layout title={preview.data.title}>
+	<div class="h-full flex flex-col gap-10 justify-between">
+		<div class="mt-32 h-fit w-[800px]  px-10 rounded-[15rem] preview-container mx-auto">
+			<h1
+				class="text-foam text-center mb-[86px] text-[3rem]/[2.375rem] font-bold"
+			>
+				{preview.data.title}
+			</h1>
+			<div
+				class="[&>p]:mb-[38px] text-[1rem]/[2.375rem] px-[75px] tracking-[1px]"
+			>
+				<Content />
+			</div>
+		</div>
+
+		<BouncingLink href="/" class="mt-auto"> Sign up </BouncingLink>
+		<div class="flex mb-8 items-center gap-28 mx-auto">
+			<PaginationLink
+				active={!!prevPage}
+				href={prevPage?.slug}
+			>
+				&lt;- Prev
+			</PaginationLink>
+
+			<div class="flex gap-4 justify-center">
+				{
+					allPreviews.map((p) => (
+						<a
+							class="hover:scale-125"
+							href={p.slug}
+						>
+							<div
+								class:list={[
+									{
+										"bg-foam":
+											preview.slug ===
+											p.slug,
+									},
+									"w-3 h-3 bg-[#E6E6E6]",
+								]}
+							/>
+						</a>
+					))
+				}
+			</div>
+			<PaginationLink
+				active={!!nextPage}
+				href={nextPage?.slug}
+			>
+				Next -&gt;
+			</PaginationLink>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.preview-container {
+		background: repeating-linear-gradient(
+			transparent,
+			transparent 36px,
+			#ffffff1a 37px,
+			#ffffff1a 38px
+		);
+
+	box-shadow: 0px 0px 80px 50px #232137 inset
+	}
+</style>

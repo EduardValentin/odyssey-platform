@@ -1,0 +1,20 @@
+---
+interface Props {
+	active?: boolean | null | undefined;
+	href?: string | null | undefined;
+}
+const { href, active } = Astro.props;
+---
+
+<a
+	class:list={[
+		"text-[2rem]/[1.25rem] underline font-jura",
+		{
+			"cursor-none text-white/20 hover:text-gray": !active,
+			"text-white hover:text-foam": active,
+		},
+	]}
+	href={href}
+>
+	<slot />
+</a>

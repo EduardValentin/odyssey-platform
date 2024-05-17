@@ -1,45 +1,54 @@
-import fs from 'node:fs/promises';
 import * as emailValidator from 'email-validator';
-
-const WAITLIST_SIGNUPS_FILE = './waitlist-signups.txt';
+import type { APIRoute } from 'astro';
+import { verifyToken } from '../../repositories/waitlist-token-reposotory';
+import { isAlreadyJoined } from '../../repositories/waiting-user-repository';
+import { addWaitingUser } from '../../services/waitlist-service';
+import { JoinWaitlistResponseCodes } from '../../constants/waitlist-constants';
 
 export const POST: APIRoute = async ({ request }) => {
 	const body = await request.json();
+
 	const headers = new Headers();
 	headers.set('content-type', 'application/json');
 
-	if (!body.email) {
+	if (!body.email || !body.token) {
 		return new Response(JSON.stringify({
-			message: 'Email is a required parameter',
-			code: 'email_missing',
+			message: 'Missing required parameters: email, token',
+			code: JoinWaitlistResponseCodes.ParamsMissing,
 		}), {
 			status: 404,
-			headers
+			headers,
 		});
 	}
 
 	if (!emailValidator.validate(body.email)) {
 		return new Response(JSON.stringify({
 			message: 'Email is invalid',
-			code: 'invalid_email',
+			code: JoinWaitlistResponseCodes.InvalidEmail,
 		}), {
 			status: 404,
-			headers
+			headers,
 		});
 	}
 
-	const file = await fs.readFile(WAITLIST_SIGNUPS_FILE, { encoding: 'utf8' });
-
-	const isAlreadySignedUp = file.split('\n').some(e => e === body.email);
-
-	if (isAlreadySignedUp) {
-		return new Response(null, { status: 201, headers });
+	if (!await verifyToken(body.token)) {
+		return new Response(JSON.stringify({
+			message: 'The token is invalid',
+			code: JoinWaitlistResponseCodes.InvalidToken,
+		}), {
+			status: 401,
+			headers,
+		});
 	}
 
-	await fs.appendFile(WAITLIST_SIGNUPS_FILE, body.email + "\n", {
-		encoding: 'utf8'
-	});
+	if (await isAlreadyJoined(body.email)) {
+		console.warn('[Waitlist] the email is already on the waitlist');
+		return new Response(JSON.stringify({ code: JoinWaitlistResponseCodes.Ok }),
+			{ status: 200, headers, });
+	}
 
-	return new Response(null, { status: 201, headers });
+	await addWaitingUser(body.token, body.email)
 
+	return new Response(JSON.stringify({ code: JoinWaitlistResponseCodes.Ok }),
+		{ status: 200, headers, });
 }

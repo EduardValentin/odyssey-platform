@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { JoinWaitlistResponseCodes } from "../constants/waitlist-constants.ts";
+---
+
+<Layout title="Thanks for confirming your email">
+	<div class="flex items-center flex-col justify-center h-full">
+		<div
+			id="feedback-container"
+			class="text-center pt-20 text-lg font-jura w-[36rem] mx-auto"
+		>
+		</div>
+		<div class="text-center mt-14">
+			<a
+				href="/"
+				class="font-jura text-[2rem]/[20px] hover:text-foam underline"
+				>Back home</a
+			>
+		</div>
+	</div>
+</Layout>
+
+<script
+	is:inline
+	define:vars={{ JoinWaitlistResponseCodes: JoinWaitlistResponseCodes }}
+>
+	window.addEventListener("pageshow", async function () {
+		const containerElem =
+			document.getElementById("feedback-container");
+
+		if (!containerElem) {
+			return;
+		}
+
+		const urlParams = new URLSearchParams(window.location.search);
+		const token = urlParams.get("token");
+		const email = urlParams.get("email");
+		if (!token || !email) {
+			containerElem.textContent =
+				"Invalid parameters. If you copy/pasted the URL from the received email please double check that you copied correctly. Otherwise this might be an error on our side. Please contact us at contact@odyssey.dev and we will help you.";
+			return;
+		}
+
+		try {
+			const response = await fetch("/api/join-waitlist", {
+				method: "POST",
+				body: JSON.stringify({
+					token,
+					email,
+				}),
+			});
+
+			const responseBody = await response.json();
+
+			if (response.status >= 200 && response.status < 300) {
+				containerElem.textContent =
+					"Thanks for confirming your email. You will be notified via email when the course gets launched. Untill then, have a great day and keep learning!";
+				containerElem.classList += " text-success";
+			} else if (
+				responseBody.code ===
+				JoinWaitlistResponseCodes.InvalidToken
+			) {
+				containerElem.textContent =
+					"Looks like your email verification has expired. Please join the waitlist again to get a new email verification.";
+
+				containerElem.classList += " text-red-500";
+			} else {
+				containerElem.textContent =
+					"Your URL address seems to be incorrect and we could not process your email verification. Please make sure you clicked the link in the email or try joining the waitlist again.";
+
+				containerElem.classList += " text-red-500";
+			}
+		} catch (e) {
+			debugger;
+			containerElem.textContent =
+				"Something went wrong and we couldn't complete your waitlist registration. Please try again later.";
+
+			containerElem.classList += " text-red-500";
+		}
+	});
+</script>

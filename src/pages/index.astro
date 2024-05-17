@@ -8,7 +8,7 @@ import BouncingLink from "../components/BouncingLink.astro";
 	<div class="pt-[220px] flex justify-between flex-col h-full">
 		<div>
 			<h1
-				class="text-foam text-[3rem]/[1.25rem] font-bold text-center"
+				class="text-foam text-[3rem]/[3.25rem] font-bold text-center"
 			>
 				Jumpstart your career in software development
 			</h1>
@@ -23,12 +23,13 @@ import BouncingLink from "../components/BouncingLink.astro";
 				any challenge that comes your way.
 			</p>
 
-			<div class="mx-auto flex justify-center mt-[5.125rem]">
+			<div
+				id="waitlist-container"
+				class="mx-auto flex flex-col items-center justify-center mt-[5.125rem]"
+			>
 				<form
 					id="waitlist-signup"
 					class="flex relative"
-					method="POST"
-					action="/join-waitlist"
 				>
 					<Mail
 						class="fill-base absolute top-1/2 left-5 -translate-y-1/2"
@@ -38,18 +39,26 @@ import BouncingLink from "../components/BouncingLink.astro";
 						name="email"
 						type="email"
 						placeholder="example@mail.com"
+						required
 					/>
 					<button
-						data-sitekey="reCAPTCHA_site_key"
-						data-callback="onSubmit"
-						data-action="submit"
-						class="g-recaptcha bg-rose font-semibold text-base border-l-base border-l py-5 px-4 text-[1rem]/[1.25rem] hover:bg-rose-moon"
+						id="verify-email-cta"
 						type="submit"
-						>Join the waiting list</button
+						class="bg-rose disabled:bg-rose/60 disabled:text-black/40 font-semibold text-base border-l-base border-l py-5 px-4 text-[1rem]/[1.25rem] hover:bg-rose-moon"
 					>
+						<span
+							>Join the waiting list</span
+						>
+					</button>
 				</form>
+				<div
+					id="feedback-container"
+					class="mt-5 text-center"
+				>
+				</div>
 			</div>
 		</div>
+
 		<BouncingLink
 			href="/previews/what-will-you-learn"
 			class="mb-28"
@@ -58,11 +67,83 @@ import BouncingLink from "../components/BouncingLink.astro";
 		</BouncingLink>
 	</div>
 
-	<script is:inline src="https://www.google.com/recaptcha/api.js"
-	></script>
+	<script
+		is:inline
+		src={"https://www.google.com/recaptcha/api.js?render=" +
+			import.meta.env.PUBLIC_CAPTCHA_SITE_KEY}></script>
 </Layout>
-<script is:inline>
-	function onSubmit(token) {
-		document.getElementById("waitlist-signup").submit();
+
+<script>
+	const formEl = document.getElementsByTagName("form")[0];
+	formEl.addEventListener("submit", onSubmit);
+
+	const feedbackEl = document.getElementById("feedback-container");
+
+	async function onSubmit(e: SubmitEvent) {
+		e.preventDefault();
+
+		const ctaButton = document.getElementById("verify-email-cta");
+		ctaButton.setAttribute("disabled", "true");
+
+		grecaptcha.ready(function () {
+			grecaptcha
+				.execute(
+					import.meta.env.PUBLIC_CAPTCHA_SITE_KEY,
+					{
+						action: "submit",
+					},
+				)
+				.then(async function (token: string) {
+					const captchaResponse = await fetch(
+						"/api/verify-captcha",
+						{
+							method: "POST",
+							body: JSON.stringify({
+								token,
+							}),
+						},
+					).then((res) => res.json());
+
+					const inputEmail =
+						document.querySelector(
+							'input[name="email"]',
+						) as HTMLInputElement;
+
+					if (!captchaResponse.success) {
+						feedbackEl.textContent =
+							"Something went wrong on our part. Please try again later and if the issue persists don't hesitate to contact us.";
+
+						feedbackEl.className +=
+							" text-red-500";
+						return;
+					}
+
+					await fetch("/api/verify-email", {
+						method: "POST",
+						body: JSON.stringify({
+							email: inputEmail?.value,
+						}),
+					})
+						.then((res) => res.json())
+						.then(() => {
+							ctaButton.removeAttribute(
+								"disabled",
+							);
+							const waitlistContainerEl =
+								document.getElementById(
+									"waitlist-container",
+								);
+							waitlistContainerEl.removeChild(
+								formEl,
+							);
+
+							feedbackEl.textContent =
+								"Thank you for your interest in this course. We sent you an email where you can confirm your registration. Only then your registration will be completed.";
+
+							feedbackEl.className +=
+								" text-success";
+						});
+				});
+		});
 	}
 </script>

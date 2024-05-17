@@ -30,40 +30,42 @@ const { title } = Astro.props;
 		<title>{title}</title>
 		<ViewTransitions />
 	</head>
-	<body>
+	<body class="px-10">
 		<Cloud class="-left-[1090px] animate-float" />
 		<Cloud
 			class="translate-y-full -right-[1090px] animate-float-reversed"
 		/>
 		<slot />
-	</body><style is:global>
-		@tailwind base; /* Preflight will be injected here */
+		<style is:global>
+			@tailwind base; /* Preflight will be injected here */
 
-		@tailwind components;
+			@tailwind components;
 
-		@tailwind utilities;
-		:root {
-			--base-main: #232136;
-			--rose-main: #ebbcba;
-			--rose-moon: #ea9a97;
-			--foam-main: #9ccfd8;
-		}
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6 {
-			font-family: "Jura", "Times New Roman", Times, serif;
-		}
-		html {
-			height: 100%;
-			font-family: "Inter", system-ui, sans-serif;
-			color: white;
-			background: var(--base-main);
-		}
-		body {
-			height: 100%;
-		}
-	</style>
+			@tailwind utilities;
+			:root {
+				--base-main: #232136;
+				--rose-main: #ebbcba;
+				--rose-moon: #ea9a97;
+				--foam-main: #9ccfd8;
+			}
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: "Jura", "Times New Roman", Times,
+					serif;
+			}
+			html {
+				height: 100%;
+				font-family: "Inter", system-ui, sans-serif;
+				color: white;
+				background: var(--base-main);
+			}
+			body {
+				height: 100%;
+			}
+		</style>
+	</body>
 </html>

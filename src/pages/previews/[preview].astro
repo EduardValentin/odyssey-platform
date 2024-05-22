@@ -51,7 +51,7 @@ const prevPage = allPreviews[currentSlugIndex - 1];
 		<div class="flex mb-8 items-center gap-28 mx-auto">
 			<PaginationLink
 				active={!!prevPage}
-				href={prevPage?.slug}
+				href={'/' + prevPage?.slug}
 			>
 				&lt;- Prev
 			</PaginationLink>
@@ -61,7 +61,7 @@ const prevPage = allPreviews[currentSlugIndex - 1];
 					allPreviews.map((p) => (
 						<a
 							class="hover:scale-125"
-							href={p.slug}
+							href={'/' + p.slug}
 						>
 							<div
 								class:list={[
@@ -79,7 +79,7 @@ const prevPage = allPreviews[currentSlugIndex - 1];
 			</div>
 			<PaginationLink
 				active={!!nextPage}
-				href={nextPage?.slug}
+				href={'/' + nextPage?.slug}
 			>
 				Next -&gt;
 			</PaginationLink>

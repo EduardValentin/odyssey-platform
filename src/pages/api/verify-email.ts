@@ -35,7 +35,8 @@ export const POST: APIRoute = async ({ request }) => {
 
 	try {
 		const emailResp = await sendEmail(body.email, 'Please verify your email', {
-			cta_url: `${import.meta.env.EMAIL_CONFIRMATION_URL}?token=${token}&email=${body.email}`,
+			token: body.token,
+			email: body.email,
 		});
 
 		if (emailResp?.["Messages"]?.[0]?.["Status"] === "success") {

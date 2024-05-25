@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import * as emailValidator from 'email-validator';
-import { createToken } from "../../repositories/waitlist-token-reposotory";
+import { createToken, invalidateToken } from "../../repositories/waitlist-token-reposotory";
 import { sendEmail } from "../../services/email-service";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -33,15 +33,22 @@ export const POST: APIRoute = async ({ request }) => {
 		email: body.email,
 	});
 
-	const emailResp = await sendEmail(body.email, 'Please verify your email', {
-		url: `${import.meta.env.EMAIL_CONFIRMATION_URL}?token=${token}&email=${body.email}`,
-	});
+	try {
+		const emailResp = await sendEmail(body.email, 'Please verify your email', {
+			cta_url: `${import.meta.env.EMAIL_CONFIRMATION_URL}?token=${token}&email=${body.email}`,
+		});
 
-	if (emailResp?.["Messages"]?.[0]?.["Status"] === "success") {
-		return new Response(JSON.stringify({ status: 'success' }),
-			{ status: 200, headers });
+		if (emailResp?.["Messages"]?.[0]?.["Status"] === "success") {
+			return new Response(JSON.stringify({ status: 'success' }),
+				{ status: 200, headers });
+		} else {
+			await invalidateToken(token);
+			return new Response(JSON.stringify({ status: 'failed' }),
+				{ status: 500, headers });
+		}
+	} catch {
+		await invalidateToken(token);
+		return new Response(JSON.stringify({ status: 'failed' }),
+			{ status: 500, headers });
 	}
-
-	return new Response(JSON.stringify({ status: 'failed' }),
-		{ status: 500, headers });
 }

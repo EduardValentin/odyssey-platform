@@ -125,7 +125,7 @@ import BouncingLink from "../components/BouncingLink.astro";
 						}),
 					})
 						.then((res) => res.json())
-						.then(() => {
+						.then((body) => {
 							ctaButton.removeAttribute(
 								"disabled",
 							);
@@ -137,6 +137,18 @@ import BouncingLink from "../components/BouncingLink.astro";
 								formEl,
 							);
 
+							console.log(body);
+							if (
+								body.status ===
+								"failed"
+							) {
+								feedbackEl.textContent =
+									"We could not send you the verification email. Please try again and if this issue persists don't hesitate to contact us.";
+
+								feedbackEl.className +=
+									" text-red-500";
+								return;
+							}
 							feedbackEl.textContent =
 								"Thank you for your interest in this course. We sent you an email where you can confirm your registration. Only then your registration will be completed.";
 

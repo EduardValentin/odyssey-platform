@@ -26,7 +26,7 @@ export async function sendEmail(to: string, subject: string, variables: object) 
 
 	headers.append('Authorization', `Basic ${encodedString} `);
 	headers.append('content-type', 'application/json');
-	console.log('HERE');
+
 	const requestBody = JSON.stringify({
 		"Messages": [
 			{

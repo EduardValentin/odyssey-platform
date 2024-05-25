@@ -35,7 +35,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 	try {
 		const emailResp = await sendEmail(body.email, 'Please verify your email', {
-			token: body.token,
+			token: token,
 			email: body.email,
 		});
 

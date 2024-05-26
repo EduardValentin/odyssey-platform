@@ -14,7 +14,7 @@ const { href, active } = Astro.props;
 			"text-white hover:text-foam": active,
 		},
 	]}
-	href={href}
+	href={active ? href : undefined}
 >
 	<slot />
 </a>

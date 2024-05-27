@@ -2,4 +2,14 @@
 title: Think like a programmer
 index: 1
 ---
-For every programmer, it's really important to have a good understanding of logic. Although modern programming languages are much easier to understand and use, it's worth keeping in mind that every line of code is essentially a series of logical operations on bits of 0 and 1. So, in other words, a computer program is just a bunch of logical operations on binary digits - even though this might not be immediately obvious in the code itself. But don't worry, with a little bit of practice, you'll be writing amazing programs in no time at all!
+Every programmer needs to understand logic in order to write programs. A computer program essentially consists of logical operations on zeroes and ones, also known as bits. It's important to grasp the role of propositional logic when working with bits. Although modern programming languages are easier to read and use, at the core, every line of code boils down to logical operations on bits of 0 and 1.
+
+Types of operators in propositional logic include:
+
+* <span class="text-rose">Conjunction.</span> Symbol: **&** (Also called AND).
+* <span class="text-rose">Disjunction.</span> Symbol: **||** (Also called OR).
+* <span class="text-rose">Negation.</span> Symbol: **!** (Also called NOT).
+* <span class="text-rose">Implication.</span> Symbol: **->** 
+* <span class="text-rose">Equivalence.</span> Symbol:  **<->**
+
+

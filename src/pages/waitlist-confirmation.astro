@@ -37,7 +37,7 @@ import { JoinWaitlistResponseCodes } from "../constants/waitlist-constants.ts";
 		const email = urlParams.get("email");
 		if (!token || !email) {
 			containerElem.textContent =
-				"Invalid parameters. If you copy/pasted the URL from the received email please double check that you copied correctly. Otherwise this might be an error on our side. Please contact us at contact@odyssey.dev and we will help you.";
+				"Invalid parameters. If you copy/pasted the URL from the received email please double check that you copied correctly. Otherwise this might be an error on our side. Please contact us and we will help you.";
 			return;
 		}
 

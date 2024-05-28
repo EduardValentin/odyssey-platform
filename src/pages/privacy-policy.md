@@ -7,9 +7,9 @@ layout: ../layouts/Layout.astro
 
 **Last Updated: 26 May 2024**
 
-Welcome to odysseylearning.dev!
+Welcome to codekata.dev!
 
-Your privacy is critically important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website odysseylearning.dev and sign up for our waiting list for the course. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+Your privacy is critically important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website codekata.dev and sign up for our waiting list for the course. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
 
 ## 1. Information We Collect
 
@@ -63,7 +63,7 @@ We may update our Privacy Policy from time to time. We will notify you of any ch
 
 If you have any questions about this Privacy Policy, please contact us at:
 
-contact@odysseylearning.dev
+contact@codekata.dev
 
 ## 10. Consent
 

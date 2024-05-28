@@ -1,1 +1,1 @@
-# Odyssey waitlist landing page
+# Codekata waitlist landing page

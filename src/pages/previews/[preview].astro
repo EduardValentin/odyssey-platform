@@ -34,12 +34,13 @@ const prevPage = allPreviews[currentSlugIndex - 1];
 function makePath(slug: string): string {
 	return `/previews/${slug}`;
 }
-
 ---
 
-<Layout title={preview.data.title}>
+<Layout title={`Chapter Preview: ${preview.data.title}`}>
 	<div class="h-full flex flex-col gap-10 justify-between">
-		<div class="mt-32 h-fit w-[800px]  px-10 rounded-[15rem] preview-container mx-auto">
+		<div
+			class="mt-32 h-fit w-[800px] px-10 rounded-[15rem] preview-container mx-auto"
+		>
 			<h1
 				class="text-foam text-center mb-[86px] text-[3rem]/[2.375rem] font-bold"
 			>
@@ -101,6 +102,6 @@ function makePath(slug: string): string {
 			#ffffff1a 38px
 		);
 
-	box-shadow: 0px 0px 80px 50px #232137 inset
+		box-shadow: 0px 0px 80px 50px #232137 inset;
 	}
 </style>

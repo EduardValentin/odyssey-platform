@@ -55,6 +55,7 @@ import BouncingLink from "../components/BouncingLink.astro";
 				</form>
 				<div
 					class="text-xs text-white/40 text-center mt-5"
+					id="consent"
 				>
 					<div>
 						By providing your email address
@@ -176,17 +177,22 @@ import BouncingLink from "../components/BouncingLink.astro";
 								ctaButton.removeAttribute(
 									"disabled",
 								);
+
 								const waitlistContainerEl =
 									document.getElementById(
 										"waitlist-container",
 									);
+
 								waitlistContainerEl.removeChild(
 									formEl,
 								);
 
-								console.log(
-									body,
+								waitlistContainerEl.removeChild(
+									document.getElementById(
+										"consent",
+									),
 								);
+
 								if (
 									body.status ===
 									"failed"

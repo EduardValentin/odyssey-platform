@@ -6,10 +6,10 @@ Every programmer needs to understand logic in order to write programs. A compute
 
 Types of operators in propositional logic include:
 
-* <span class="text-rose">Conjunction.</span> Symbol: **&** (Also called AND).
-* <span class="text-rose">Disjunction.</span> Symbol: **||** (Also called OR).
-* <span class="text-rose">Negation.</span> Symbol: **!** (Also called NOT).
-* <span class="text-rose">Implication.</span> Symbol: **->** 
-* <span class="text-rose">Equivalence.</span> Symbol:  **<->**
+* <span class="text-rose">Conjunction (And):</span> Symbol: **&** 
+* <span class="text-rose">Disjunction (Or):</span> Symbol: **||** 
+* <span class="text-rose">Negation (Not):</span> Symbol: **!** 
+* <span class="text-rose">Implication:</span> Symbol: **->**
+* <span class="text-rose">Equivalence:</span> Symbol:  **<->**
 
 

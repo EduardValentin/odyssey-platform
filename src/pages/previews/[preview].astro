@@ -37,9 +37,9 @@ function makePath(slug: string): string {
 ---
 
 <Layout title={`Chapter Preview: ${preview.data.title}`}>
-	<div class="h-full flex flex-col gap-10 justify-between">
+	<div class="h-full w-full flex flex-col gap-10 justify-between">
 		<div
-			class="mt-32 h-fit w-[800px] px-10 rounded-[15rem] preview-container mx-auto"
+			class="mt-32 h-fit w-full md:w-[800px] md:px-10 rounded-[15rem] preview-container mx-auto"
 		>
 			<h1
 				class="text-foam text-center mb-[86px] text-[3rem]/[2.375rem] font-bold"
@@ -47,14 +47,14 @@ function makePath(slug: string): string {
 				{preview.data.title}
 			</h1>
 			<div
-				class="[&>p]:mb-[38px] text-[1rem]/[2.375rem] px-[75px] tracking-[1px]"
+				class="[&>p]:mb-[38px] text-[1rem]/[2.375rem] px-5 md:px-[75px] tracking-[1px]"
 			>
 				<Content />
 			</div>
 		</div>
 
 		<BouncingLink href="/" class="mt-auto"> Sign up </BouncingLink>
-		<div class="flex mb-8 items-center gap-28 mx-auto">
+		<div class="flex mb-8 items-center gap-10 md:gap-28 mx-auto">
 			<PaginationLink
 				active={!!prevPage}
 				href={makePath(prevPage?.slug)}

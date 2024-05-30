@@ -1,14 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { JoinWaitlistResponseCodes } from "../constants/waitlist-constants.ts";
+import Spinner from "../components/Spinner.astro";
 ---
 
 <Layout title="Thanks for confirming your email">
 	<div class="flex items-center flex-col justify-center h-full">
 		<div
 			id="feedback-container"
-			class="text-center pt-20 text-lg font-jura w-[36rem] mx-auto"
+			class="text-center pt-20 text-lg font-jura w-full md:w-[36rem] mx-auto"
 		>
+			<Spinner class="mx-auto" />
 		</div>
 		<div class="text-center mt-14">
 			<a

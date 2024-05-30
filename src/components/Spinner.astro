@@ -1,0 +1,32 @@
+---
+const { variant = "medium", class: className = "" } = Astro.props;
+
+const variantClasses = {
+	small: "w-6 h-6",
+	medium: "w-12 h-12",
+	large: "w-16 h-16",
+};
+---
+
+<style>
+	.spinner {
+		border: 4px solid rgba(0, 0, 0, 0.1);
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+</style>
+
+<div
+	class:list={[
+		"spinner !border-l-base/60",
+		className,
+		variantClasses[variant],
+	]}
+>
+</div>

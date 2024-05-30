@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import * as emailValidator from 'email-validator';
 import { createToken, invalidateToken } from "../../repositories/waitlist-token-reposotory";
 import { sendEmail } from "../../services/email-service";
+import { validateCaptcha } from "../../services/recaptcha-service";
 
 export const POST: APIRoute = async ({ request }) => {
 	const body = await request.json();
@@ -29,6 +30,19 @@ export const POST: APIRoute = async ({ request }) => {
 		});
 	}
 
+	const isCaptchaValid = await validateCaptcha(body.token);
+
+
+	if (!isCaptchaValid) {
+		return new Response(JSON.stringify({
+			message: 'Captcha is invalid',
+			code: 'invalid_captcha',
+		}), {
+			status: 403,
+			headers
+		});
+	}
+
 	const token = await createToken({
 		email: body.email,
 	});
@@ -44,12 +58,12 @@ export const POST: APIRoute = async ({ request }) => {
 				{ status: 200, headers });
 		} else {
 			await invalidateToken(token);
-			return new Response(JSON.stringify({ status: 'failed' }),
+			return new Response(JSON.stringify({ code: 'server_error' }),
 				{ status: 500, headers });
 		}
 	} catch {
 		await invalidateToken(token);
-		return new Response(JSON.stringify({ status: 'failed' }),
+		return new Response(JSON.stringify({ code: 'server_error' }),
 			{ status: 500, headers });
 	}
 }

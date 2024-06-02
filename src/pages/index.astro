@@ -30,9 +30,9 @@ import Spinner from "../components/Spinner.astro";
 			id="waitlist-container"
 			class="mx-auto flex flex-col items-center justify-center"
 		>
-			<h3 class="mb-10 text-3xl text-foam">
+			<h2 class="mb-10 text-3xl text-foam">
 				Join the waiting list
-			</h3>
+			</h2>
 			<form
 				id="waitlist-signup"
 				class="flex relative w-full md:w-[615px]"
@@ -105,15 +105,18 @@ import Spinner from "../components/Spinner.astro";
 			captchaSiteKey: import.meta.env.PUBLIC_CAPTCHA_SITE_KEY,
 		}}
 	>
-		window.addEventListener("load", () => {
-			const script = document.createElement("script");
-			script.src =
-				"https://www.google.com/recaptcha/api.js?render=" +
-				captchaSiteKey;
+		document.getElementsByTagName("input")[0].addEventListener(
+			"focus",
+			() => {
+				const script = document.createElement("script");
+				script.src =
+					"https://www.google.com/recaptcha/api.js?render=" +
+					captchaSiteKey;
 
-			script.defer = true;
-			document.body.appendChild(script);
-		});
+				script.defer = true;
+				document.body.appendChild(script);
+			},
+		);
 	</script>
 
 	<script>

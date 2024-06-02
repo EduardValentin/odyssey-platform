@@ -100,10 +100,21 @@ import Spinner from "../components/Spinner.astro";
 	</div>
 
 	<script
-		defer
 		is:inline
-		src={"https://www.google.com/recaptcha/api.js?render=" +
-			import.meta.env.PUBLIC_CAPTCHA_SITE_KEY}></script>
+		define:vars={{
+			captchaSiteKey: import.meta.env.PUBLIC_CAPTCHA_SITE_KEY,
+		}}
+	>
+		window.addEventListener("load", () => {
+			const script = document.createElement("script");
+			script.src =
+				"https://www.google.com/recaptcha/api.js?render=" +
+				captchaSiteKey;
+
+			script.defer = true;
+			document.body.appendChild(script);
+		});
+	</script>
 
 	<script>
 		const formEl = document.getElementsByTagName("form")[0];
@@ -125,84 +136,81 @@ import Spinner from "../components/Spinner.astro";
 			const spinner = ctaButton.querySelector(".spinner");
 			spinner.classList.remove("hidden");
 
-			grecaptcha.ready(function () {
-				grecaptcha
-					.execute(
-						import.meta.env
-							.PUBLIC_CAPTCHA_SITE_KEY,
-						{
-							action: "submit",
-						},
-					)
-					.then(async function (token: string) {
-						try {
-							const inputEmail =
-								document.querySelector(
-									'input[name="email"]',
-								) as HTMLInputElement;
+			grecaptcha
+				.execute(
+					import.meta.env.PUBLIC_CAPTCHA_SITE_KEY,
+					{
+						action: "submit",
+					},
+				)
+				.then(async function (token: string) {
+					try {
+						const inputEmail =
+							document.querySelector(
+								'input[name="email"]',
+							) as HTMLInputElement;
 
-							await fetch(
-								"/api/verify-email",
-								{
-									method: "POST",
-									body: JSON.stringify(
-										{
-											email: inputEmail?.value,
-											token,
-										},
-									),
-								},
-							).then((res) => {
-								ctaButton.removeAttribute(
-									"disabled",
+						await fetch(
+							"/api/verify-email",
+							{
+								method: "POST",
+								body: JSON.stringify(
+									{
+										email: inputEmail?.value,
+										token,
+									},
+								),
+							},
+						).then((res) => {
+							ctaButton.removeAttribute(
+								"disabled",
+							);
+
+							buttonText.classList.remove(
+								"hidden",
+							);
+							spinner.classList.add(
+								"hidden",
+							);
+
+							const waitlistContainerEl =
+								document.getElementById(
+									"waitlist-container",
 								);
 
-								buttonText.classList.remove(
-									"hidden",
-								);
-								spinner.classList.add(
-									"hidden",
-								);
+							waitlistContainerEl.removeChild(
+								formEl,
+							);
 
-								const waitlistContainerEl =
-									document.getElementById(
-										"waitlist-container",
-									);
+							waitlistContainerEl.removeChild(
+								document.getElementById(
+									"consent",
+								),
+							);
 
-								waitlistContainerEl.removeChild(
-									formEl,
-								);
-
-								waitlistContainerEl.removeChild(
-									document.getElementById(
-										"consent",
-									),
-								);
-
-								if (
-									res.status <
-										200 ||
-									res.status >=
-										400
-								) {
-									feedbackEl.textContent =
-										"We could not send you the verification email. Please try again and if this issue persists don't hesitate to contact us.";
-
-									feedbackEl.className +=
-										" text-red-500";
-									return;
-								}
+							if (
+								res.status <
+									200 ||
+								res.status >=
+									400
+							) {
 								feedbackEl.textContent =
-									"Thank you for your interest in this course. We sent you an email where you can confirm your registration. Only then your registration will be completed.";
+									"We could not send you the verification email. Please try again and if this issue persists don't hesitate to contact us.";
 
 								feedbackEl.className +=
-									" text-success";
-							});
-						} finally {
-							grecaptcha.reset();
-						}
-					});
-			});
+									" text-red-500";
+								return;
+							}
+							feedbackEl.textContent =
+								"Thank you for your interest in this course. We sent you an email where you can confirm your registration. Only then your registration will be completed.";
+
+							feedbackEl.className +=
+								" text-success";
+						});
+					} finally {
+						grecaptcha.reset();
+					}
+				});
 		}
 	</script>
 </Layout>

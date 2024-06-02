@@ -117,6 +117,24 @@ import Spinner from "../components/Spinner.astro";
 				document.body.appendChild(script);
 			},
 		);
+
+		if (typeof grecaptcha === "undefined") {
+			grecaptcha = {};
+		}
+
+		grecaptcha.ready = function (cb) {
+			if (typeof grecaptcha === "undefined") {
+				// window.__grecaptcha_cfg is a global variable that stores reCAPTCHA's
+				// configuration. By default, any functions listed in its 'fns' property
+				// are automatically executed when reCAPTCHA loads.
+				const c = "___grecaptcha_cfg";
+				window[c] = window[c] || {};
+				(window[c]["fns"] =
+					window[c]["fns"] || []).push(cb);
+			} else {
+				cb();
+			}
+		};
 	</script>
 
 	<script>
@@ -139,81 +157,84 @@ import Spinner from "../components/Spinner.astro";
 			const spinner = ctaButton.querySelector(".spinner");
 			spinner.classList.remove("hidden");
 
-			grecaptcha
-				.execute(
-					import.meta.env.PUBLIC_CAPTCHA_SITE_KEY,
-					{
-						action: "submit",
-					},
-				)
-				.then(async function (token: string) {
-					try {
-						const inputEmail =
-							document.querySelector(
-								'input[name="email"]',
-							) as HTMLInputElement;
+			grecaptcha.ready(() => {
+				grecaptcha
+					.execute(
+						import.meta.env
+							.PUBLIC_CAPTCHA_SITE_KEY,
+						{
+							action: "submit",
+						},
+					)
+					.then(async function (token: string) {
+						try {
+							const inputEmail =
+								document.querySelector(
+									'input[name="email"]',
+								) as HTMLInputElement;
 
-						await fetch(
-							"/api/verify-email",
-							{
-								method: "POST",
-								body: JSON.stringify(
-									{
-										email: inputEmail?.value,
-										token,
-									},
-								),
-							},
-						).then((res) => {
-							ctaButton.removeAttribute(
-								"disabled",
-							);
-
-							buttonText.classList.remove(
-								"hidden",
-							);
-							spinner.classList.add(
-								"hidden",
-							);
-
-							const waitlistContainerEl =
-								document.getElementById(
-									"waitlist-container",
+							await fetch(
+								"/api/verify-email",
+								{
+									method: "POST",
+									body: JSON.stringify(
+										{
+											email: inputEmail?.value,
+											token,
+										},
+									),
+								},
+							).then((res) => {
+								ctaButton.removeAttribute(
+									"disabled",
 								);
 
-							waitlistContainerEl.removeChild(
-								formEl,
-							);
+								buttonText.classList.remove(
+									"hidden",
+								);
+								spinner.classList.add(
+									"hidden",
+								);
 
-							waitlistContainerEl.removeChild(
-								document.getElementById(
-									"consent",
-								),
-							);
+								const waitlistContainerEl =
+									document.getElementById(
+										"waitlist-container",
+									);
 
-							if (
-								res.status <
-									200 ||
-								res.status >=
-									400
-							) {
+								waitlistContainerEl.removeChild(
+									formEl,
+								);
+
+								waitlistContainerEl.removeChild(
+									document.getElementById(
+										"consent",
+									),
+								);
+
+								if (
+									res.status <
+										200 ||
+									res.status >=
+										400
+								) {
+									feedbackEl.textContent =
+										"We could not send you the verification email. Please try again and if this issue persists don't hesitate to contact us.";
+
+									feedbackEl.className +=
+										" text-red-500";
+									return;
+								}
 								feedbackEl.textContent =
-									"We could not send you the verification email. Please try again and if this issue persists don't hesitate to contact us.";
+									"Thank you for your interest in this course. We sent you an email where you can confirm your registration. Only then your registration will be completed.";
 
 								feedbackEl.className +=
-									" text-red-500";
-								return;
-							}
-							feedbackEl.textContent =
-								"Thank you for your interest in this course. We sent you an email where you can confirm your registration. Only then your registration will be completed.";
-
-							feedbackEl.className +=
-								" text-success";
-						});
-					} finally {
-						grecaptcha.reset();
-					}
-				});
+									" text-success";
+							});
+						} finally {
+							grecaptcha.reset();
+						}
+					});
+			});
 		}
 	</script>
 </Layout>

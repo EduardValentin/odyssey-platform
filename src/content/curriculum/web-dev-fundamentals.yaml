@@ -1,0 +1,27 @@
+index: 2
+title: Web Development Fundamentals
+description: |
+    In this part of the course, you'll start with an overview of the World Wide Web (WWW), learning how it works, what happens when you enter a website address, and the basics of URLs, HTTP vs. HTTPS, and client-server applications.
+
+    Next, you'll dive into HTML, discovering how it's used to create websites. You'll learn about the structure of HTML files and various HTML tags.
+
+    Then, you'll explore CSS, which is used to style websites. We'll cover how CSS works, measurement units, common styling rules, and different selectors.
+
+    Finally, you'll get an introduction to JavaScript (JS), essential for building interactive websites. You'll learn how JavaScript is executed by the browser, how to import JS files, and cover basics like variables, data types, control structures, and more advanced topics like objects, arrays, and asynchronous programming.
+items:
+  - name: World Wide Web (WWW)
+    content: |+
+     In this chapter, you'll get a clear idea of what the World Wide Web (WWW) is and how it works. We'll explain what happens when you type a website address into your browser and how websites are made. You'll learn what a URL is, the difference between HTTP and HTTPS, and get a simple introduction to how client-server applications work. This will help you understand the basics of how the web operates.
+  - name: HTML (Hyper Text Markup Language)
+    content: |
+      In this chapter, you'll learn what HTML is and how it's used to create websites. We'll explain the role of HTML in web development and how your browser reads and displays HTML files. You'll get to know the structure of an HTML file and explore various HTML tags and attributes. By the end, you'll have a good grasp of how to use HTML to build your own web pages.
+  - name: Cascading Style Sheets (CSS)
+    content: |
+      In this chapter, you'll learn what CSS is and how it helps to style websites. We'll cover the basics of how CSS works and the different units of measurement it uses. You'll get to know common styling rules and the difference between padding and margin. We'll also introduce you to various selectors like ID, Class, and attribute selectors, and how to use them to customize the look of your web pages.
+  - name: JavaScript (JS)
+    content: |
+      In this chapter, you'll dive into JavaScript (JS) and understand its crucial role in building interactive websites. We'll explain how JavaScript code is executed and interpreted by your browser and the difference between interpreted and compiled languages, including what compilers and interpreters do. You'll learn how JavaScript is loaded into the browser and the different ways to import JS files into a website.
+
+      We'll cover the basics like comments, variables, constants, and data types, and how to perform operations like addition, subtraction, and logical comparisons. You'll also get to know control flow structures such as conditional statements and loops. We’ll explore more advanced topics like the object data type, arrays, and the difference between passing values by reference vs. by value.
+
+      Additionally, we'll discuss functions, variable scoping, and useful functions on the Array object. Lastly, you’ll learn about synchronous vs. asynchronous execution of JavaScript programs. By the end, you'll have a solid foundation in JavaScript to start making your web pages dynamic and interactive.

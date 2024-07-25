@@ -1,0 +1,21 @@
+index: 1
+title: Programming basics
+description: In this part of the course, you'll learn what programming is and how it can be used. We'll cover the basics of logical thinking and how it's essential for writing programs. You'll understand what computer programs are and how they work. Additionally, we'll introduce you to algorithms and how they help in writing effective computer programs.
+items:
+  - name: Introduction to Programming
+    content: |+
+      In this chapter, you'll get a straightforward introduction to programming and its various purposes, such as automating tasks, processing data, creating applications, and controlling hardware. We'll cover the basic components of a computer program: how programs take in input, process it with instructions, and produce output.
+
+      You'll also learn about different programming languages, which are the tools we use to write programs. We’ll introduce you to some common languages like Java, Python, JavaScript, and C#, each with its own way of writing code. This chapter is designed to be easy to understand, helping you get comfortable with the basics of programming.
+  - name: Logical Thinking for Programmers
+    content: |
+      In this chapter, you'll learn what makes a programmer truly skilled: the ability to understand and solve problems efficiently using logical thinking. We’ll begin by exploring the basics of logic, which is essential for writing effective programs. You'll see how computer programs are built on simple logical operations involving bits (zeroes and ones).
+
+      We'll dive into the laws of propositional logic, which are rules that help simplify and manipulate logical statements. Understanding these laws is crucial because they often appear in computer programming. By the end of this chapter, you’ll have a solid foundation in logical thinking, enabling you to tackle programming challenges with confidence. Whether you're new to programming or looking to strengthen your skills, this chapter will make logical concepts easy to grasp and apply. 
+  - name: Algorithms
+    content: |
+      In this chapter, you'll discover what algorithms are and how they help us solve problems, both in everyday life and in programming. We’ll start by learning to write simple instructions (like recipes) in plain English, called pseudocode, which helps in planning before coding. You'll understand the basic parts of algorithms, such as variables (places to store information) and constants (fixed values), and different types of data like numbers and text.
+
+      We’ll break down how to perform basic actions like adding or comparing values, and how to write clear instructions that a computer can follow. You'll also learn how to control the flow of your program, like making decisions or repeating actions, and how to work with lists of data and strings of text.
+
+      Finally, you'll practice solving problems step-by-step, building your confidence and skills. By the end, you’ll be ready to tackle real programming challenges, with exercises designed to reinforce everything you’ve learned. This chapter is designed to be easy to understand, so no prior programming experience is needed.

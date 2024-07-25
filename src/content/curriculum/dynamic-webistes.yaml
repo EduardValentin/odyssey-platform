@@ -1,0 +1,18 @@
+
+index: 3
+title: Creating Dynamic Web Pages
+description: |
+    In these chapters, you'll explore the Document Object Model (DOM) and its role in web development. You'll learn how JavaScript can manipulate the DOM to create interactive web pages, including selecting and altering elements. Next, you'll dive into handling user interactions and events, understanding how to make websites responsive to keyboard inputs, mouse movements, and other actions using addEventListener. Finally, you'll learn how to dynamically modify web content, including changing text, adding or removing DOM nodes, and keeping your web pages responsive with techniques like setTimeout. Together, these chapters will show you how HTML, CSS, and JavaScript work together to create engaging and dynamic web experiences.
+items:
+  - name: Document Object Model (DOM)
+    type: title
+    content: |+
+      In this chapter, you'll learn about the Document Object Model (DOM) and how it works when you load a website. We'll explore how JavaScript can manipulate the DOM to build interactive web pages. You'll understand the role of the "document" node in JavaScript and how to use it to select elements by various attributes. We'll also cover how to manipulate DOM nodes from JavaScript to create dynamic and engaging content. This chapter will help you see how HTML, CSS, and JavaScript work together to make websites interactive.
+  - name: Handling User Interaction and Events
+    type: title
+    content: |
+      In this chapter, you'll learn how to make your websites interactive by handling user interactions and events. We'll explain what events are and how they work, including keyboard inputs, mouse movements, and other actions. You'll discover how to use JavaScript to respond to these events and make your web pages more dynamic. We'll also cover how to add events using addEventListener, so you can easily attach interactivity to your HTML elements. This chapter will help you understand the basics of creating engaging and responsive websites.
+  - name: Dynamically Modifying Web Content
+    type: title
+    content: |
+      In this chapter, you'll learn how to make your web pages come alive by dynamically modifying content in response to user events. We'll cover how to change text content, add or remove DOM nodes, and manipulate the children of a DOM node. You'll also learn techniques to ensure your web page stays responsive, even with long-running scripts, using tools like setTimeout to prevent blocking. This chapter will help you create dynamic and interactive web experiences.

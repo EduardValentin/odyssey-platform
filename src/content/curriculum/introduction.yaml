@@ -1,0 +1,25 @@
+index: 0
+title: Introduction
+items:
+  - name: Who is this course for?
+    content: |+
+      This course is for anyone who wants to start his career in programming or for someone who wants to better understand web development, even if you have zero programming knowledge, this course is suitable for you.
+  - name: What will you learn?
+    content: |
+      This course will not only teach you how to create websites from zero but it will teach you to think like a programmer and develop the necessary skills to handle programming in multiple areas, not only web development.
+  - name: Why web development?
+    content: |
+      Web development is here to stay and there are a ton of jobs targeting web developers. If you know how to develop a website, that means you have knowledge of servers, databases, UI/UX and client side programming which can help you develop other kinds of applications such as mobile or desktop, using the same technology stack. We’ll dive deeper into what web development and client side programming means and how can you use that knowledge into other areas.
+  - name: Web developer career
+    content: |
+      A web developer career can be divided into multiple areas, from building a website full of eye candy visuals, building a web based video game, to managing servers with their security and the whole infrastructure of an application.
+      As a web developer you have many opportunities and areas that you can go into.
+  - name: Terminology used in this course
+    content: |
+      - Code snippet: one or multiple lines of code.
+      - Script file: a file containing JavaScript code to be run In a browser. Typically included in HTML code.
+      - Literals: simple values like 1,2,3.
+      - Expression: a code snippet that evaluates to a value. This includes literals.
+      - Statement: a code snippet that performs actions and does not return a value. They typically influence the flow of code execution.
+
+

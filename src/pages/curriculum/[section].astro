@@ -1,0 +1,192 @@
+---
+export const prerender = true;
+
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BouncingLink from "../../components/BouncingLink.astro";
+import PaginationLink from "../../components/PaginationLink.astro";
+
+export async function getStaticPaths() {
+	const sections = await getCollection("curriculum");
+
+	return sections.map((s) => ({
+		params: {
+			section: s.id,
+		},
+		props: {
+			section: s,
+		},
+	}));
+}
+
+const { section } = Astro.props;
+
+const sections = (await getCollection("curriculum")).sort(
+	(s1, s2) => s1.data.index - s2.data.index,
+);
+
+const currentidIndex = sections.findIndex((s) => s.id === section.id);
+
+const nextPage = sections[currentidIndex + 1];
+const prevPage = sections[currentidIndex - 1];
+
+function makePath(id: string): string {
+	return `/curriculum/${id}`;
+}
+---
+
+<Layout title={`Chapter Preview: ${section.data.title}`}>
+	<div class="flex-1 w-full flex flex-col gap-10 justify-between">
+		<div
+			class="mt-16 md:mt-32 h-fit w-full md:w-[1200px] md:px-10 rounded-[15rem] preview-container mx-auto"
+		>
+			<h1
+				id="section-title"
+				class="text-foam ml-14 mb-[48px] text-[2.5rem]/[2.375rem] md:text-[3rem]/[2.375rem] font-bold"
+			>
+				{section.data.title}
+			</h1>
+			<div
+				class="[&>p]:mb-[38px] text-white/90 text-[1rem]/[2.375rem] px-5 md:px-[75px] tracking-[1px]"
+			>
+				<ul id="curriculum-list" class="list-[square]">
+					{
+						section.data.items.map(
+							(item) => (
+								<li>
+									<button
+										class:list={[
+											"flex w-full ml-5 group hover:text-foam justify-between expand-preview font-jura",
+										]}
+									>
+										<span>
+											{
+												item.name
+											}
+										</span>
+										<span class="icon font-bold group-hover:text-foam">
+											-&gt
+										</span>
+									</button>
+									<pre class="p-0 m-0 whitespace-pre-line hidden mt-[38px] font-inter">
+										{
+											item.content
+										}
+									</pre>
+								</li>
+							),
+						)
+					}
+				</ul>
+			</div>
+		</div>
+
+		<BouncingLink href="/" class="mt-auto"> Sign up </BouncingLink>
+		<div class="flex items-center gap-10 md:gap-28 mx-auto">
+			<PaginationLink
+				active={!!prevPage}
+				href={makePath(prevPage?.id)}
+			>
+				&lt;- Prev
+			</PaginationLink>
+
+			<div class="flex gap-4 justify-center">
+				{
+					sections.map((p) => (
+						<a
+							class="hover:scale-125"
+							href={makePath(p.id)}
+						>
+							<div
+								class:list={[
+									{
+										"bg-foam":
+											section.id ===
+											p.id,
+									},
+									"w-3 h-3 bg-[#E6E6E6]",
+								]}
+							/>
+						</a>
+					))
+				}
+			</div>
+			<PaginationLink
+				active={!!nextPage}
+				href={makePath(nextPage?.id)}
+			>
+				Next -&gt;
+			</PaginationLink>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	let opened = false;
+	const list = document.getElementById("curriculum-list");
+	const title = document.getElementById("section-title");
+
+	function openItem(cta: Element) {
+		const parent = cta.closest("li");
+		list?.querySelectorAll("li").forEach((b) => {
+			if (b !== parent) {
+				b.classList.add("hidden");
+			}
+		});
+
+		parent.querySelector("pre")?.classList.remove("hidden");
+
+		const icon = parent.querySelector(".icon");
+		icon.textContent = "<- Go back";
+		icon.classList.add("!text-[1rem]/[3rem]");
+
+		cta.classList.add("!p-0", "!text-[2.25rem]/[2.375rem]");
+		title.classList.add("hidden");
+		opened = true;
+	}
+
+	function closeItem(cta: Element) {
+		const parent = cta.closest("li");
+		list?.querySelectorAll("li").forEach((b) => {
+			b.classList.remove("hidden");
+		});
+
+		parent.querySelector("pre")?.classList.add("hidden");
+
+		const icon = parent.querySelector(".icon");
+		icon.textContent = "->";
+		icon.classList.remove("!text-[1rem]/[3rem]");
+
+		cta.classList.remove("!p-0", "!text-[2.25rem]/[2.375rem]");
+		title.classList.remove("hidden");
+		opened = false;
+	}
+
+	document.querySelectorAll("button.expand-preview").forEach((cta) => {
+		cta.addEventListener("click", function () {
+			if (!opened) {
+				openItem(cta);
+			} else {
+				closeItem(cta);
+			}
+		});
+	});
+</script>
+
+<style is:global>
+	ul {
+		list-style-type: square;
+	}
+</style>
+<style>
+	.preview-container {
+		background: repeating-linear-gradient(
+			transparent,
+			transparent 36px,
+			#ffffff1a 37px,
+			#ffffff1a 38px
+		);
+
+		box-shadow: 0px 0px 80px 50px #232137 inset;
+	}
+</style>
